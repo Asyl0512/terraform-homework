@@ -8,6 +8,11 @@ variable key_name {
     default = ""
     type = string
 }
+variable "aws_security_group_ids" {
+  description = "Provide VPC security group IDs"
+  type        = list(string)
+  default     = []
+}
 variable ports {
     description = "Provide ports"
     type = list(number)

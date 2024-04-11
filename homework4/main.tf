@@ -5,8 +5,8 @@ provider aws {
 resource "aws_instance" "web" {
   ami = var.ami_id
   instance_type = var.type
-  key_name = aws_key_pair.deployer.key_name
-  vpc_security_group_ids = [aws_security_group.allow_tls.id]
+  key_name = var.key_name
+  vpc_security_group_ids  = var.aws_security_group_ids
   count = var.count_number
   tags = local.common_tags
 }
