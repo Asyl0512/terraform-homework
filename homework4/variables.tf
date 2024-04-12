@@ -5,7 +5,7 @@ variable region {
 }
 variable key_name {
     description = "Provide key name"
-    default = ""
+    default = "key_name"
     type = string
 }
 variable "aws_security_group_ids" {
@@ -16,6 +16,7 @@ variable "aws_security_group_ids" {
 variable ports {
     description = "Provide ports"
     type = list(number)
+    default = [ 443, 80, 22 ]
 }
 variable availability_zone {
     description = "Provide availability zone"
