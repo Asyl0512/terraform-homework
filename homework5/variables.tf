@@ -4,28 +4,18 @@ variable region {
 }
 
 variable vpc_cidr {
-    type = string
-    description = "Provide vpc cidr block"
+ type = list(object({
+   cidr_block = string 
+   dns_hostnames = bool
+   dns_support = bool
+ }))
 }
 
-variable public1_cidr {
-    type = string
-    description = "Provide public1 cidr block"
-}
-
-variable public2_cidr {
-    type = string
-    description = "Provide public2 cidr block"
-}
-
-variable private1_cidr {
-    type = string
-    description = "Provide private1 cidr block"
-}
-
-variable private2_cidr {
-    type = string
-    description = "Provide private2 cidr block"
+variable subnet_cidr {
+ type = list(object({
+    cidr = string
+    subnet_name = string
+ }))
 }
 
 variable rt_names {
@@ -38,16 +28,13 @@ variable ip_on_launch {
     default = false
 }
 
-variable instance_type {
-    type = string
-}
-
-variable enable_dns_support {
-    type = bool
-}
-
-variable enable_dns_hostnames {
-    type = bool
+variable "ec2_types" {
+  description = "List of EC2 instance types"
+  type        = list(object({
+    ami       = string
+    instance_type = string
+    ec2_name          = string
+  }))
 }
 
 variable igw_name {

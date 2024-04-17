@@ -3,52 +3,52 @@ provider aws {
 }
 
 resource "aws_vpc" "kaizen" {
-  cidr_block = var.vpc_cidr
-  enable_dns_support = true
-  enable_dns_hostnames = true
+  cidr_block = var.vpc_cidr[0].cidr_block
+  enable_dns_support = var.vpc_cidr[0].dns_support
+  enable_dns_hostnames = var.vpc_cidr[0].dns_hostnames
 }
 
 resource "aws_subnet" "public1" {
   vpc_id     = aws_vpc.kaizen.id
-  cidr_block = var.public1_cidr
+  cidr_block = var.subnet_cidr[0].cidr
   map_public_ip_on_launch = var.ip_on_launch
   availability_zone = "${var.region}a"
 
   tags = {
-    Name = "public1"
+    Name = var.subnet_cidr[0].subnet_name
   }
 }
 
 resource "aws_subnet" "public2" {
   vpc_id     = aws_vpc.kaizen.id
-  cidr_block = var.public2_cidr
+  cidr_block = var.subnet_cidr[1].cidr
   map_public_ip_on_launch = var.ip_on_launch
   availability_zone = "${var.region}b"
 
   tags = {
-    Name = "public2"
+    Name = var.subnet_cidr[1].subnet_name
   }
 }
 
 resource "aws_subnet" "private1" {
   vpc_id     = aws_vpc.kaizen.id
-  cidr_block = var.private1_cidr
+  cidr_block = var.subnet_cidr[2].cidr
   map_public_ip_on_launch = var.ip_on_launch
   availability_zone = "${var.region}c"
 
   tags = {
-    Name = "private1"
+    Name = var.subnet_cidr[2].subnet_name
   }
 }
 
 resource "aws_subnet" "private2" {
   vpc_id     = aws_vpc.kaizen.id
-  cidr_block = var.private2_cidr
+  cidr_block = var.subnet_cidr[3].cidr
   map_public_ip_on_launch = var.ip_on_launch
   availability_zone = "${var.region}d"
 
   tags = {
-    Name = "private2"
+    Name = var.subnet_cidr[3].subnet_name
   }
 }
 
@@ -69,7 +69,7 @@ resource "aws_route_table" "public-rt" {
   }
 
   tags = {
-    Name = "public-rt"
+    Name = var.rt_names[0]
   }
 }
 
@@ -83,7 +83,7 @@ resource "aws_route_table" "private-rt" {
   }
 
   tags = {
-    Name = "private-rt"
+    Name = var.rt_names[1]
   }
 }
 

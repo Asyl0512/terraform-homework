@@ -15,13 +15,13 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_instance" "ubuntu" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = var.instance_type
+  ami           = var.ec2_types[0].ami
+  instance_type = var.ec2_types[0].instance_type
   subnet_id      = aws_subnet.public1.id
   vpc_security_group_ids = [aws_security_group.allow_tls.id]
   user_data = file ("apache.sh")
   tags = {
-    Name = "Ubuntu"
+    Name = var.ec2_types[0].ec2_name
   }
 
 }
@@ -38,13 +38,13 @@ data "aws_ami" "amzn-linux-2023-ami" {
 
 resource "aws_instance" "amazon" {
   ami           = data.aws_ami.amzn-linux-2023-ami.id
-  instance_type = var.instance_type
+  instance_type = var.ec2_types[1].instance_type
   subnet_id = aws_subnet.private1.id
   associate_public_ip_address = "true"
   vpc_security_group_ids = [aws_security_group.allow_tls.id]
   user_data = file ("apache.amazon.sh")
   tags = {
-    Name = "Amazon"
+    Name = var.ec2_types[1].ec2_name
   }
 }
 
